@@ -1,0 +1,196 @@
+{
+  "graph": {
+    "levels": [
+      {
+        "level": 0,
+        "nodes": [
+          {
+            "id": "root",
+            "type": "compulsory",
+            "content": "Distributed Systems Overview",
+            "longDescription": {
+              "description": "Introduction to distributed systems, their benefits, and challenges.",
+              "importance": "Understanding the fundamentals of distributed systems is crucial for building scalable and reliable applications."
+            }
+          }
+        ]
+      },
+      {
+        "level": 1,
+        "nodes": [
+          {
+            "id": "A",
+            "type": "compulsory",
+            "content": "Distributed System Architectures",
+            "longDescription": {
+              "details": "Exploring different distributed system architectures, such as client-server, peer-to-peer, and cloud-based systems.",
+              "prerequisites": [],
+              "timeEstimate": "3 hours",
+              "learningOutcome": "Understanding the strengths and weaknesses of different architectural approaches.",
+              "resources": [
+                "https://www.nginx.com/resources/glossary/distributed-system-architecture/"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "level": 2,
+        "nodes": [
+          {
+            "id": "B",
+            "type": "compulsory",
+            "content": "Consistency and Replication",
+            "longDescription": {
+              "details": "Understanding data consistency and replication techniques in distributed systems.",
+              "prerequisites": [
+                "A"
+              ],
+              "timeEstimate": "4 hours",
+              "learningOutcome": "Knowing how to ensure data integrity and availability in a distributed environment.",
+              "resources": [
+                "https://www.oreilly.com/library/view/data-consistency-in/9781492046328/"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "level": 3,
+        "nodes": [
+          {
+            "id": "C",
+            "type": "compulsory",
+            "content": "Concurrency and Fault Tolerance",
+            "longDescription": {
+              "details": "Learning about concurrency control and fault tolerance mechanisms in distributed systems.",
+              "prerequisites": [
+                "B"
+              ],
+              "timeEstimate": "5 hours",
+              "learningOutcome": "Understanding how to handle concurrency and failures in a distributed system.",
+              "resources": [
+                "https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/tr-2015-16.pdf"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "level": 4,
+        "nodes": [
+          {
+            "id": "D",
+            "type": "compulsory",
+            "content": "Distributed Transactions",
+            "longDescription": {
+              "details": "Exploring distributed transaction concepts, protocols, and challenges.",
+              "prerequisites": [
+                "C"
+              ],
+              "timeEstimate": "4 hours",
+              "learningOutcome": "Understanding how to manage transactions across multiple systems.",
+              "resources": [
+                "https://docs.microsoft.com/en-us/azure/architecture/best-practices/transactions"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "level": 5,
+        "nodes": [
+          {
+            "id": "E",
+            "type": "compulsory",
+            "content": "Distributed Messaging and Queuing",
+            "longDescription": {
+              "details": "Learning about different distributed messaging and queuing technologies for communication and coordination.",
+              "prerequisites": [
+                "D"
+              ],
+              "timeEstimate": "5 hours",
+              "learningOutcome": "Understanding how to implement asynchronous communication and message-based architectures.",
+              "resources": [
+                "https://aws.amazon.com/products/managed-messaging/"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "level": 6,
+        "nodes": [
+          {
+            "id": "F",
+            "type": "compulsory",
+            "content": "Distributed Consensus Algorithms",
+            "longDescription": {
+              "details": "Exploring consensus algorithms, such as Paxos and Raft, for achieving agreement in distributed systems.",
+              "prerequisites": [
+                "E"
+              ],
+              "timeEstimate": "4 hours",
+              "learningOutcome": "Understanding how distributed systems can reach a consensus on critical decisions.",
+              "resources": [
+                "https://raft.github.io/raft.pdf"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "level": 7,
+        "nodes": [
+          {
+            "id": "G",
+            "type": "compulsory",
+            "content": "Building Distributed Applications",
+            "longDescription": {
+              "details": "Applying the concepts learned to design and build distributed applications.",
+              "prerequisites": [
+                "F"
+              ],
+              "timeEstimate": "6 hours",
+              "learningOutcome": "Gaining hands-on experience in developing distributed systems.",
+              "resources": [
+                "https://www.udacity.com/school-of-cloud-computing/nanodegree/nd023"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "level": 8,
+        "nodes": [
+          {
+            "id": "H",
+            "type": "compulsory",
+            "content": "Distributed Systems Pitfalls and Best Practices",
+            "longDescription": {
+              "details": "Exploring common pitfalls and best practices in designing and implementing distributed systems.",
+              "prerequisites": [
+                "G"
+              ],
+              "timeEstimate": "3 hours",
+              "learningOutcome": "Learning from real-world experiences and industry recommendations.",
+              "resources": [
+                "https://blog.acolyer.org/2016/03/28/distributed-system-gotchas/"
+              ]
+            }
+          },
+          {
+            "id": "HA",
+            "type": "assignment",
+            "content": "Distributed Systems Design and Implementation Project",
+            "longDescription": {
+              "details": "Designing and implementing a distributed system project.",
+              "whenToUse": "To apply the concepts learned and build a practical system.",
+              "expectedOutcome": "A working distributed system demonstrating theoretical knowledge and practical skills."
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

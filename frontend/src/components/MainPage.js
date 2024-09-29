@@ -12,7 +12,7 @@ function createMoonTexture() {
 
   // Create gradient background
   const gradient = ctx.createRadialGradient(size/2, size/2, 0, size/2, size/2, size/2)
-  gradient.addColorStop(0, '#d0d0d0')
+  gradient.addColorStop(0, '#eef0e4')
   gradient.addColorStop(1, '#909090')
   ctx.fillStyle = gradient
   ctx.fillRect(0, 0, size, size)
@@ -166,4 +166,4 @@ export default function LearningPage() {
       </form>
     </div>
   )
-}
+} 

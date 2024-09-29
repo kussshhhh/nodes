@@ -1,0 +1,153 @@
+{
+  "graph": {
+    "levels": [
+      {
+        "level": 0,
+        "nodes": [
+          {
+            "id": "root",
+            "type": "compulsory",
+            "content": "Auth",
+            "longDescription": {
+              "description": "Mechanisms for verifying and authorizing users in a system.",
+              "importance": "Authentication and authorization are essential for protecting user data and ensuring the integrity of systems."
+            }
+          }
+        ]
+      },
+      {
+        "level": 1,
+        "nodes": [
+          {
+            "id": "one",
+            "type": "compulsory",
+            "content": "Authentication Methods",
+            "longDescription": {
+              "details": "Explore different authentication methods, including passwords, biometrics, tokens, and multi-factor authentication.",
+              "prerequisites": [],
+              "timeEstimate": "2 hours",
+              "learningOutcome": "Gain a solid understanding of the strengths and weaknesses of various authentication methods.",
+              "resources": [
+                "link1",
+                "link2",
+                "link3"
+              ]
+            }
+          },
+          {
+            "id": "two",
+            "type": "compulsory",
+            "content": "Authorization Techniques",
+            "longDescription": {
+              "details": "Learn about authorization techniques such as role-based access control (RBAC), attribute-based access control (ABAC), and OAuth2.",
+              "prerequisites": [
+                "one"
+              ],
+              "timeEstimate": "3 hours",
+              "learningOutcome": "Develop expertise in designing and implementing authorization mechanisms for different applications.",
+              "resources": [
+                "link1",
+                "link2",
+                "link3"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "level": 2,
+        "nodes": [
+          {
+            "id": "three",
+            "type": "compulsory",
+            "content": "Session Management",
+            "longDescription": {
+              "details": "Understand how to manage user sessions securely, including session tokens, session expiration, and session hijacking prevention.",
+              "prerequisites": [
+                "one"
+              ],
+              "timeEstimate": "2 hours",
+              "learningOutcome": "Gain practical skills in implementing secure session management strategies.",
+              "resources": [
+                "link1",
+                "link2",
+                "link3"
+              ]
+            }
+          },
+          {
+            "id": "four",
+            "type": "non-compulsory",
+            "content": "Federated Authentication",
+            "longDescription": {
+              "type": "alternative",
+              "details": "Explore federated authentication protocols like SAML, OAuth2, and OpenID Connect.",
+              "whenToUse": "When dealing with multiple authentication providers or integrating with external services.",
+              "expectedOutcome": "Gain expertise in implementing federated authentication solutions."
+            }
+          }
+        ]
+      },
+      {
+        "level": 3,
+        "nodes": [
+          {
+            "id": "five",
+            "type": "compulsory",
+            "content": "Security Considerations",
+            "longDescription": {
+              "details": "Discuss security considerations related to authentication and authorization, including password security, phishing attacks, and CSRF.",
+              "prerequisites": [
+                "one",
+                "two"
+              ],
+              "timeEstimate": "2 hours",
+              "learningOutcome": "Develop a strong understanding of the security risks associated with authentication and authorization and how to mitigate them.",
+              "resources": [
+                "link1",
+                "link2",
+                "link3"
+              ]
+            }
+          },
+          {
+            "id": "six",
+            "type": "non-compulsory",
+            "content": "Advanced Authentication Techniques",
+            "longDescription": {
+              "type": "alternative",
+              "details": "Explore advanced authentication techniques such as biometrics, multi-factor authentication, and risk-based authentication.",
+              "whenToUse": "When requiring enhanced security or dealing with high-risk applications.",
+              "expectedOutcome": "Gain knowledge of cutting-edge authentication methods."
+            }
+          }
+        ]
+      },
+      {
+        "level": 4,
+        "nodes": [
+          {
+            "id": "seven",
+            "type": "compulsory",
+            "content": "Industry Best Practices",
+            "longDescription": {
+              "details": "Review industry best practices for authentication and authorization, including standards, guidelines, and recommendations.",
+              "prerequisites": [
+                "one",
+                "two",
+                "three"
+              ],
+              "timeEstimate": "1 hour",
+              "learningOutcome": "Develop an understanding of best practices to ensure robust and secure authentication and authorization mechanisms.",
+              "resources": [
+                "link1",
+                "link2",
+                "link3"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
