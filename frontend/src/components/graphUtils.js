@@ -1,7 +1,7 @@
 import { MarkerType } from 'reactflow';
 
 const nodeWidth = 200;
-const nodeHeight = 150;
+const nodeHeight = 100;
 
 export const generateNodes = (data) => {
   let nodes = [];
@@ -22,7 +22,7 @@ export const generateNodes = (data) => {
         },
         type: 'custom',
       });
-      xOffset += nodeWidth + 100;
+      xOffset += nodeWidth + 400;
     });
     yOffset += nodeHeight + 150;
   });
@@ -39,7 +39,7 @@ export const generateEdges = (data) => {
           id: edge.id,
           source: edge.source,
           target: edge.target,
-          type: 'smoothstep',
+          type: 'bezier',
           markerEnd: {
             type: MarkerType.ArrowClosed,
             color: edge.style?.stroke || '#436e86',
