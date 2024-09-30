@@ -2,6 +2,9 @@ import React, { useState, useRef, useMemo } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { Environment, Points } from '@react-three/drei'
 import * as THREE from 'three'
+import Graph from './Graph'
+import Loading from './Loading'
+// import { is } from '@react-three/fiber/dist/declarations/src/core/utils'
 
 function createMoonTexture() {
   const size = 1024
@@ -12,8 +15,8 @@ function createMoonTexture() {
 
   // Create gradient background
   const gradient = ctx.createRadialGradient(size/2, size/2, 0, size/2, size/2, size/2)
-  gradient.addColorStop(0, '#eef0e4')
-  gradient.addColorStop(1, '#909090')
+  gradient.addColorStop(0, '#fcfdf5')
+  gradient.addColorStop(1, '#fcfdf5')
   ctx.fillStyle = gradient
   ctx.fillRect(0, 0, size, size)
 
@@ -49,7 +52,7 @@ function GlowingMoon() {
       </mesh>
       <mesh ref={glowRef}>
         <sphereGeometry args={[1.2, 64, 64]} />
-        <meshBasicMaterial color="#b3d9ff" transparent opacity={0.2} />
+        <meshBasicMaterial color="ffffff" transparent opacity={0.2} />
       </mesh>
     </group>
   )
@@ -118,52 +121,86 @@ function Comets({ count = 20 }) {
 
 export default function LearningPage() {
   const [learningTopic, setLearningTopic] = useState('')
+  const [isLoading, setIsLoading] = useState(false) 
+  const [graphData, setGraphData] = useState(null) 
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    console.log(`User wants to learn about: ${learningTopic}`)
+    setIsLoading(true) 
+
+    try{
+      const response = await fetch(`http://127.0.0.1:5000/api/learn?topic=${encodeURIComponent(learningTopic)}`)
+      if(!response.ok){
+        throw new Error('Network response not ok')
+      }
+      const data = await response.json() ;
+      console.log(data)
+      setGraphData(data) ;
+
+    }catch(error){
+      console.error('Error fetching data:', error) 
+
+    } finally {
+      setIsLoading(false) 
+    }
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-black flex flex-col items-center justify-start p-4 relative overflow-hidden" style={{
-      backgroundImage: 'linear-gradient(to bottom right, #1a1a1a, #000000)',
-      boxShadow: 'inset 0 0 100px 20px rgba(255,255,255,0.1)'
-    }}>
-      <div className="absolute inset-0">
-        <Canvas camera={{ position: [0, 0, 5] }}>
-          <ambientLight intensity={0.5} />
-          <pointLight position={[10, 10, 10]} />
-          <Stars />
-          <Comets />
-          <Environment preset="night" />
-        </Canvas>
-      </div>
-      <div className="w-full max-w-md aspect-square mt-8 mb-4 relative z-10">
-        <Canvas camera={{ position: [0, 0, 3] }}>
-          <ambientLight intensity={0.5} />
-          <pointLight position={[10, 10, 10]} intensity={1} />
-          <GlowingMoon />
-        </Canvas>
-      </div>
-      <h1 className="text-3xl font-bold text-white mb-4 text-center relative z-10">What would you like to learn?</h1>
-      <form onSubmit={handleSubmit} className="w-full max-w-lg relative z-10">
-        <div className="flex gap-2">
-          <input
-            type="text"
-            value={learningTopic}
-            onChange={(e) => setLearningTopic(e.target.value)}
-            placeholder="Enter a topic..."
-            className="flex-grow bg-white bg-opacity-10 text-white placeholder-gray-400 border border-gray-600 rounded-md p-3 text-lg"
-          />
-          <button type="submit" className="bg-pink-500 hover:bg-pink-600 text-white font-bold px-6 py-3 rounded-md text-lg" style={{
-            backgroundColor: '#ff1493',
-            boxShadow: '0 0 10px #ff1493, 0 0 20px #ff1493, 0 0 30px #ff1493',
-            transition: 'all 0.3s ease'
+    
+    <div>
+       { !isLoading && !graphData && ( 
+          <div className="min-h-screen bg-gradient-to-br from-gray-900 to-black flex flex-col items-center justify-start p-4 relative overflow-hidden" style={{
+            backgroundImage: 'linear-gradient(to bottom right, #000000, #000000)',
+            boxShadow: 'inset 0 0 100px 20px rgba(255,255,255,0.1)'
           }}>
-            Learn
-          </button>
+            <div className="absolute inset-0">
+              <Canvas camera={{ position: [0, 0, 5] }}>
+                <ambientLight intensity={0.5} />
+                <pointLight position={[10, 10, 10]} />
+                <Stars />
+                <Comets />
+                <Environment preset="night" />
+              </Canvas>
+            </div>
+            <div className="w-full max-w-md aspect-square mt-8 mb-4 relative z-10">
+              <Canvas camera={{ position: [0, 0, 3] }}>
+                <ambientLight intensity={0.5} />
+                <pointLight position={[10, 10, 10]} intensity={1} />
+                <GlowingMoon />
+              </Canvas>
+            </div>
+            <h1 className="text-3xl font-bold text-white mb-4 text-center relative z-10">What would you like to learn?</h1>
+            <form onSubmit={handleSubmit} className="w-full max-w-lg relative z-10">
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  value={learningTopic}
+                  onChange={(e) => setLearningTopic(e.target.value)}
+                  placeholder="Enter a topic..."
+                  className="flex-grow bg-white bg-opacity-10 text-white placeholder-gray-400 border border-gray-600 rounded-md p-3 text-lg"
+                />
+                <button type="submit" className="bg-pink-500 hover:bg-pink-600 text-white font-bold px-6 py-3 rounded-md text-lg" style={{
+                  backgroundColor: '#ff1493',
+                  boxShadow: '0 0 10px #ff1493, 0 0 20px #ff1493, 0 0 30px #ff1493',
+                  transition: 'all 0.3s ease'
+                }}>
+                  Learn
+                </button>
+              </div>
+            </form>
+          </div> )}
+
+      {isLoading && <Loading/>}
+
+      {!isLoading && graphData && (
+        <div className="app-container">
+          <div className="graph-wrapper" style={{ width: '100%', height: '600px' }}>
+            <Graph data={graphData} />
+          </div>
         </div>
-      </form>
+      )}
+
+      
     </div>
   )
 } 
