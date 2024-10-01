@@ -135,7 +135,7 @@ Guidelines:
 2. Provide concise titles (max 50 characters) and brief content descriptions (max 150 characters) for each node.
 3. Ensure compulsory nodes (isCompulsory: true) form the main learning path.
 4. Non-compulsory nodes (isCompulsory: false) should represent assignments or related but non-essential topics.
-5. You may add or remove nodes and levels as necessary, but maintain at least 2 levels (including level 0) 
+5. You may add or remove nodes and levels as necessary, but maintain at least 4 levels (including level 0) 
 6. Ensure all node IDs and edge IDs are unique and properly connected.
 7. The JSON must be valid and properly formatted.
 8. include assignments too if relevant
