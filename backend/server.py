@@ -9,7 +9,7 @@ app = Flask(__name__)
 CORS(app)
 
 # Configure the Gemini API
-genai.configure(api_key='AIzaSyDzkvzoICjKXhsMs0pScbEDtlOLpaoJDOw')
+genai.configure(api_key='')
 
 def create_connection():
     conn = None
