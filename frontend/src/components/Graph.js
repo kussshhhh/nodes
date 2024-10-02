@@ -10,18 +10,30 @@ import 'reactflow/dist/style.css';
 import CustomNode from './CustomNode';
 import Popup from './Popup';
 import { generateNodes, generateEdges } from './graphUtils';
-
+import { updateNodeContent } from './IndexDBUtils';
 const nodeTypes = {
   custom: CustomNode,
 };
 
 const Graph = ({ data }) => {
+  console.log(data);
   const [nodes, setNodes, onNodesChange] = useNodesState(generateNodes(data));
   const [edges, setEdges, onEdgesChange] = useEdgesState(generateEdges(data));
   const [popupData, setPopupData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
+
   const expandNode = useCallback(async (node) => {
+    // If the node is already open, just show the popup with existing content
+    if (node.data.isOpen) {
+      setPopupData({
+        title: node.data.title,
+        content: node.data.content,
+        nodeId: node.id
+      });
+      return;
+    }
+
     setIsLoading(true);
     try {
       const response = await fetch('http://127.0.0.1:5000/api/expand_node', {
@@ -36,21 +48,35 @@ const Graph = ({ data }) => {
           content: node.data.content
         }),
       });
+
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
+
       const result = await response.json();
+      
+      // Update the node content in IndexedDB
+      await updateNodeContent(data.topic, node.id, result.content);
+
       setPopupData({
         title: node.data.title,
         content: result.content,
         nodeId: node.id
       });
+
+      // Update the nodes state to reflect the change
+      setNodes(nodes.map(n => 
+        n.id === node.id 
+          ? { ...n, data: { ...n.data, content: result.content, isOpen: true }}
+          : n
+      ));
+
     } catch (error) {
       console.error('Error expanding the node', error);
     } finally {
       setIsLoading(false);
     }
-  }, [data.topic]);
+  }, [data.topic, nodes, setNodes]);
 
   const handleSendToBackend = useCallback(async () => {
     if (popupData) {

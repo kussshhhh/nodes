@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import ReactMarkdown from 'react-markdown';
 
 const Popup = ({ title, content, onClose, onSendToBackend, isLoading }) => {
   const [inputValue, setInputValue] = useState('');
@@ -10,7 +11,6 @@ const Popup = ({ title, content, onClose, onSendToBackend, isLoading }) => {
         onClose();
       }
     };
-
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
@@ -24,13 +24,13 @@ const Popup = ({ title, content, onClose, onSendToBackend, isLoading }) => {
 
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
-      <div 
+      <div
         ref={popupRef}
-        className="w-4/5 h-4/5 bg-cyan-100 text-cyan-900 shadow-2xl flex flex-col rounded-lg overflow-hidden"
+        className="w-4/5 h-4/5 bg-cyan-100 text-cyan-900 border-black-400 shadow-2xl flex flex-col rounded-lg overflow-hidden"
       >
         <div className="relative p-6 border-b border-cyan-200">
           <h2 className="text-3xl font-bold mb-2">{title}</h2>
-          <button 
+          <button
             onClick={onClose}
             className="absolute top-4 right-4 text-cyan-600 hover:text-cyan-800"
           >
@@ -40,7 +40,15 @@ const Popup = ({ title, content, onClose, onSendToBackend, isLoading }) => {
           </button>
         </div>
         <div className="flex-grow overflow-auto p-6">
-          <div className="text-lg mb-8 whitespace-pre-wrap">{content}</div>
+          <ReactMarkdown
+            children={content}
+            components={{
+              h1: ({node, ...props}) => <h1 className="text-2xl font-bold my-4" {...props} />,
+              h2: ({node, ...props}) => <h2 className="text-xl font-bold my-3" {...props} />,
+              h3: ({node, ...props}) => <h3 className="text-lg font-bold my-2" {...props} />,
+              p: ({node, ...props}) => <p className="my-2" {...props} />,
+            }}
+          />
         </div>
         <div className="p-4 bg-cyan-200 flex items-center">
           <input

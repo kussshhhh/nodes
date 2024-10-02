@@ -9,7 +9,7 @@ app = Flask(__name__)
 CORS(app)
 
 # Configure the Gemini API
-genai.configure(api_key='AIzaSyAIsm5MAy8X9ZCffr652pWn17sjAvma6pE')
+genai.configure(api_key='AIzaSyD75FTz8Mxvh2_NEnK6gNrLgPI7H0d4qb4')
 
 def create_connection():
     conn = None
@@ -102,7 +102,7 @@ def learn_topic():
         c.execute("INSERT INTO learning_paths (topic, data) VALUES (?, ?)",
                   (topic, json.dumps(parsed_response)))
         conn.commit()
-
+        print(parsed_response)
         return jsonify(parsed_response)
     except Exception as e:
         return jsonify({"error": str(e)}), 500

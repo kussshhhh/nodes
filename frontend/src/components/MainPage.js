@@ -1,9 +1,11 @@
-  import React, { useState, useRef, useMemo } from 'react'
+  import React, { useEffect, useState, useRef, useMemo } from 'react'
   import { Canvas, useFrame } from '@react-three/fiber'
   import { Environment, Points } from '@react-three/drei'
   import * as THREE from 'three'
   import Graph from './Graph'
   import Loading from './Loading'
+  import { initDB, getGraph, saveGraph } from './IndexDBUtils'
+
   // import { is } from '@react-three/fiber/dist/declarations/src/core/utils'
 
   function createMoonTexture() {
@@ -123,27 +125,56 @@
     const [learningTopic, setLearningTopic] = useState('')
     const [isLoading, setIsLoading] = useState(false) 
     const [graphData, setGraphData] = useState(null) 
+    
+    useEffect(() => {
+      const loadExistingData = async () => {
+        await initDB();
+        const savedGraphData = localStorage.getItem('currentTopic');
+        if (savedGraphData) {
+          const graph = await getGraph(savedGraphData);
+          if (graph) {
+            setGraphData(graph);
+          }
+        }
+      };
+      loadExistingData();
+    }, []);
 
     const handleSubmit = async (e) => {
-      e.preventDefault()
-      setIsLoading(true) 
+    e.preventDefault();
+    setIsLoading(true);
 
-      try{
-        const response = await fetch(`http://127.0.0.1:5000/api/learn?topic=${encodeURIComponent(learningTopic)}`)
-        if(!response.ok){
-          throw new Error('Network response not ok')
+    try {
+        // First, check if we already have this topic in IndexedDB
+        const existingGraph = await getGraph(learningTopic);
+
+        if (existingGraph) {
+          setGraphData(existingGraph);
+          localStorage.setItem('currentTopic', learningTopic);
+        } else {
+          // If not in IndexedDB, fetch from backend
+          const response = await fetch(`http://127.0.0.1:5000/api/learn?topic=${encodeURIComponent(learningTopic)}`);
+          if (!response.ok) {
+            throw new Error('Network response not ok');
+          }
+          const data = await response.json();
+
+          // Save to IndexedDB
+          await saveGraph(learningTopic, data);
+          localStorage.setItem('currentTopic', learningTopic);
+
+          setGraphData(data);
         }
-        const data = await response.json() ;
-        console.log(data)
-        setGraphData(data) ;
-
-      }catch(error){
-        console.error('Error fetching data:', error) 
-
+      } catch (error) {
+        console.error('Error fetching data:', error);
       } finally {
-        setIsLoading(false) 
+        setIsLoading(false);
       }
-    }
+    };
+      const handleBack = async () => {
+        setGraphData(null);
+        localStorage.removeItem('currentTopic');
+      };
 
     return (
       
@@ -197,6 +228,21 @@
             <div className="graph-wrapper" style={{ width: '100%', height: '600px' }}>
               <Graph data={graphData} />
             </div>
+            <button
+              onClick={handleBack}
+              className="bg-pink-500 hover:bg-pink-600 text-white font-bold px-4 py-2 rounded-md text-lg"
+              style={{
+                position: 'absolute', // Make the button float on top of the graph
+                top: '10px',          // Adjust top position as needed
+                left: '10px',         // Adjust left position as needed
+                backgroundColor: '#ff1493',
+                boxShadow: '0 0 10px #ff1493, 0 0 20px #ff1493, 0 0 30px #ff1493',
+                transition: 'all 0.3s ease',
+                zIndex: 10            // Ensure the button is layered above the graph
+              }}
+            >
+              ←
+            </button>
           </div>
         )}
 
