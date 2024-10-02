@@ -1,4 +1,4 @@
-// indexedDBUtils.js
+// indexDBUtils.js
 const DB_NAME = 'LearningGraphDB';
 const STORE_NAME = 'graphs';
 const DB_VERSION = 1;
@@ -68,6 +68,23 @@ export const updateNodeContent = async (topic, nodeId, newContent, isOpen = true
     const request = store.put(graph);
 
     request.onsuccess = () => resolve(graph);
+    request.onerror = () => reject(request.error);
+  });
+};
+
+
+export const getAllGraphTopics = async () => {
+  const db = await initDB();
+  return new Promise((resolve, reject) => {
+    const transaction = db.transaction([STORE_NAME], 'readonly');
+    const store = transaction.objectStore(STORE_NAME);
+    const request = store.getAllKeys();
+    
+    request.onsuccess = () => {
+      const topics = request.result;
+      resolve(topics);
+    };
+    
     request.onerror = () => reject(request.error);
   });
 };

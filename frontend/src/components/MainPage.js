@@ -4,6 +4,7 @@
   import * as THREE from 'three'
   import Graph from './Graph'
   import Loading from './Loading'
+  import History from './History'
   import { initDB, getGraph, saveGraph } from './IndexDBUtils'
 
   // import { is } from '@react-three/fiber/dist/declarations/src/core/utils'
@@ -134,11 +135,62 @@
           const graph = await getGraph(savedGraphData);
           if (graph) {
             setGraphData(graph);
+            setLearningTopic(savedGraphData) ;
+            //update url without triggering a new history entry
+            window.history.replaceState({topic: savedGraphData}, '' , `?topic=${encodeURIComponent(savedGraphData)}`)
           }
         }
+        return savedGraphData ;
       };
-      loadExistingData();
+
+      // handle browser back/forward buttons
+      const handlePopState = (event) => {
+        if(event.state?.topic){
+          loadTopicFromHistory(event.state.topic) ;
+        }else{
+          setGraphData(null) ;
+          setLearningTopic('');
+          localStorage.removeItem('currentTopic') ;
+        }
+      }
+
+      window.addEventListener('popstate', handlePopState) ;
+
+      //check url params on load
+      const urlParams  = new URLSearchParams(window.location.search) ;
+      const topicParam = urlParams.get('topic') ;
+      
+      const initializeData = async () => {
+        const existingSavedGraphData = await loadExistingData();
+        if(topicParam && !existingSavedGraphData){
+          loadTopicFromHistory(topicParam);
+        }
+      };
+  
+      initializeData();
+
+      return () => {
+        window.removeEventListener('popstate', handlePopState) ;
+      }
+
     }, []);
+
+
+  const loadTopicFromHistory = async (topic) => {
+    setIsLoading(true);
+    try {
+      const graph = await getGraph(topic);
+      if (graph) {
+        setGraphData(graph);
+        setLearningTopic(topic);
+        localStorage.setItem('currentTopic', topic);
+      }
+    } catch (error) {
+      console.error('Error loading topic from history:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
     const handleSubmit = async (e) => {
     e.preventDefault();
@@ -150,7 +202,7 @@
 
         if (existingGraph) {
           setGraphData(existingGraph);
-          localStorage.setItem('currentTopic', learningTopic);
+
         } else {
           // If not in IndexedDB, fetch from backend
           const response = await fetch(`http://127.0.0.1:5000/api/learn?topic=${encodeURIComponent(learningTopic)}`);
@@ -165,20 +217,54 @@
 
           setGraphData(data);
         }
+
+        localStorage.setItem('currentTopic', learningTopic) ;
+
+        // add a new history entry
+        window.history.pushState(
+          {topic: learningTopic},
+          '',
+          `?topic=${encodeURIComponent(learningTopic)}` 
+        ) ;
+
       } catch (error) {
         console.error('Error fetching data:', error);
       } finally {
         setIsLoading(false);
       }
     };
-      const handleBack = async () => {
-        setGraphData(null);
-        localStorage.removeItem('currentTopic');
+
+      const handleTopicSelect = async (topic) => {
+        setLearningTopic(topic);
+        setIsLoading(true);
+
+        try {
+          const existingGraph = await getGraph(topic);
+          if (existingGraph) {
+            setGraphData(existingGraph);
+            localStorage.setItem('currentTopic', topic);
+            window.history.pushState(
+              { topic }, 
+              '', 
+              `?topic=${encodeURIComponent(topic)}`
+            );
+          }
+        } catch (error) {
+          console.error('Error loading selected topic:', error);
+        } finally {
+          setIsLoading(false);
+        }
       };
+
+      // const handleBack = async () => {
+      //   setGraphData(null);
+      //   localStorage.removeItem('currentTopic');
+      // };
 
     return (
       
       <div>
+        <History onTopicClick={handleTopicSelect} />
         { !isLoading && !graphData && ( 
             <div className="min-h-screen bg-gradient-to-br from-gray-900 to-black flex flex-col items-center justify-start p-4 relative overflow-hidden" style={{
               backgroundImage: 'linear-gradient(to bottom right, #000000, #000000)',
@@ -228,7 +314,7 @@
             <div className="graph-wrapper" style={{ width: '100%', height: '600px' }}>
               <Graph data={graphData} />
             </div>
-            <button
+            {/* <button
               onClick={handleBack}
               className="bg-pink-500 hover:bg-pink-600 text-white font-bold px-4 py-2 rounded-md text-lg"
               style={{
@@ -242,7 +328,7 @@
               }}
             >
               ←
-            </button>
+            </button> */}
           </div>
         )}
 
