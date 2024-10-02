@@ -9,7 +9,7 @@ app = Flask(__name__)
 CORS(app)
 
 # Configure the Gemini API
-genai.configure(api_key='AIzaSyD75FTz8Mxvh2_NEnK6gNrLgPI7H0d4qb4')
+genai.configure(api_key='')
 
 def create_connection():
     conn = None
@@ -138,17 +138,7 @@ def expand_node():
     try:
         c = conn.cursor()
         c.execute("SELECT id FROM learning_paths WHERE topic = ?", (topic,))
-        learning_path_id = c.fetchone()
         print("heh")
-        # if not learning_path_id:
-        #     return jsonify({"error": "Learning path not found"}), 404
-
-        # c.execute("SELECT generated_content FROM node_content WHERE learning_path_id = ? AND node_id = ?",
-        #           (learning_path_id[0], node_id))
-        # existing_content = c.fetchone()
-
-        # if existing_content:
-        #     return jsonify({"content": existing_content[0]})
         print("lfg")
         # Generate content for the node
         model = genai.GenerativeModel('gemini-pro')
@@ -169,11 +159,6 @@ def expand_node():
         generated_content = response.text
         generated_content = content + "\n" + generated_content
         print(generated_content)
-        # c.execute('''
-        #     INSERT INTO node_content (learning_path_id, node_id, title, generated_content)
-        #     VALUES (?, ?, ?, ?)
-        # ''', (learning_path_id[0], node_id, title, generated_content))
-        # conn.commit()
 
         return jsonify({"content": generated_content})
     except Exception as e:
