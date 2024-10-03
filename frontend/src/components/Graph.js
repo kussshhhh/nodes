@@ -39,7 +39,7 @@ const Graph = ({ data }) => {
 
     setPopupData({
       title: node.data.title,
-      content: node.data.content + '\n\n' + 'Loading...',
+      content: node.data.content + '\n\n' + 'loading...',
       nodeId: node.id 
     })
     setIsLoading(true);
@@ -117,15 +117,25 @@ const Graph = ({ data }) => {
         await updateNodeContent(data.topic, popupData.nodeId, popupData.content +'\n' + result.answer, true);
 
         console.log('Backend response:', result);
+
         setPopupData(prevData => ({
           ...prevData,
           content: prevData.content + '\n\n' + result.answer
         }));
+
+      // Update the nodes state to reflect the change
+      // console.log(popupData.content)
+      // setNodes(nodes.map(n => 
+      //   n.id === popupData.nodeId 
+      //     ? { ...n, data: { ...n.data, content:  popupData.content, isOpen: true }}
+      //     : n
+      // ));
+
       } catch (error) {
         console.error('Error sending question to backend', error);
       }
     }
-  }, [data.topic, popupData]);
+  }, [data.topic, popupData, nodes, setNodes]);
 
   const onNodeClick = useCallback((event, node) => {
     expandNode(node);
