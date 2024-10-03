@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from 'react'
+import SpaceBackground from './SpaceBackground'
 import Goku from './Goku'
 
 export default function Loading() {
@@ -14,7 +15,8 @@ export default function Loading() {
   }, [])
 
   return (
-    <div className="fixed inset-0 flex flex-col items-center justify-center bg-black">
+    <div className="fixed inset-0 flex flex-col items-center justify-center">
+      <SpaceBackground/>
       <Goku gifUrl={gifUrl} />
       <div className="mt-16">
         <div className="flex space-x-2">

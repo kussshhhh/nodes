@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import ReactMarkdown from 'react-markdown';
+import CodeBlock from './CodeBlock';
+
 
 export default function Popup({ title, content, onClose, onSendToBackend, isLoading }) {
   const [inputValue, setInputValue] = useState('');
@@ -51,6 +53,20 @@ export default function Popup({ title, content, onClose, onSendToBackend, isLoad
               h2: ({node, ...props}) => <h2 className="text-xl font-bold my-3" {...props} />,
               h3: ({node, ...props}) => <h3 className="text-lg font-bold my-2" {...props} />,
               p: ({node, ...props}) => <p className="my-2" {...props} />,
+              code: ({node, inline, className, children, ...props}) => { 
+                const match = /language-(\w+)/.exec(className || '');
+                return !inline && match?(
+                  <CodeBlock
+                    code={String(children).replace(/\n$/,'')}
+                    language={match[1]}
+                    {...props}
+                  />
+                ) : (
+                  <code className={className} {...props}>
+                    {children}
+                  </code>
+                ) ;
+              }
             }}
           />
         </div>
