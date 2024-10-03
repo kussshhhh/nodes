@@ -8,6 +8,7 @@
   import { initDB, getGraph, saveGraph } from './IndexDBUtils'
   import SpaceBackground from './SpaceBackground'
   // import { is } from '@react-three/fiber/dist/declarations/src/core/utils'
+  const backendapi = process.env.backendapi ;
 
   function createMoonTexture() {
     const size = 1024
@@ -218,7 +219,8 @@
 
         } else {
           // If not in IndexedDB, fetch from backend
-          const response = await fetch(`nodes-production.up.railway.app/api/learn?topic=${encodeURIComponent(learningTopic)}`);
+          const response = await fetch(`${backendapi}/api/learn?topic=${encodeURIComponent(learningTopic)}`);
+          // console.log(response.json()) ;
           if (!response.ok) {
             throw new Error('Network response not ok');
           }

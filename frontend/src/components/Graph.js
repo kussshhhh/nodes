@@ -11,7 +11,7 @@ import CustomNode from './CustomNode';
 import Popup from './Popup';
 import { generateNodes, generateEdges } from './graphUtils';
 import { updateNodeContent } from './IndexDBUtils';
-
+const backendapi = process.env.backendapi ;
 const nodeTypes = {
   custom: CustomNode,
 };
@@ -47,7 +47,7 @@ const Graph = ({ data }) => {
     })
     setIsLoading(true);
     try {
-      const response = await fetch('nodes-production.up.railway.app/api/expand_node', {
+      const response = await fetch(`${backendapi}/api/expand_node`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -59,7 +59,7 @@ const Graph = ({ data }) => {
           content: node.data.content
         }),
       });
-
+      console.log(response)
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -101,7 +101,7 @@ const Graph = ({ data }) => {
     console.log("kucchi09")
     if (popupData) {
       try {
-        const response = await fetch('nodes-production.up.railway.app/api/node_question', {
+        const response = await fetch(`${backendapi}/api/node_question`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
