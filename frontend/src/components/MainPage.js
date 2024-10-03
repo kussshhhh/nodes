@@ -218,7 +218,7 @@
 
         } else {
           // If not in IndexedDB, fetch from backend
-          const response = await fetch(`http://127.0.0.1:5000/api/learn?topic=${encodeURIComponent(learningTopic)}`);
+          const response = await fetch(`https://nodes-im5i.onrender.com/api/learn?topic=${encodeURIComponent(learningTopic)}`);
           if (!response.ok) {
             throw new Error('Network response not ok');
           }

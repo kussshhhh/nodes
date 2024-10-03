@@ -11,6 +11,7 @@ import CustomNode from './CustomNode';
 import Popup from './Popup';
 import { generateNodes, generateEdges } from './graphUtils';
 import { updateNodeContent } from './IndexDBUtils';
+
 const nodeTypes = {
   custom: CustomNode,
 };
@@ -37,6 +38,8 @@ const Graph = ({ data }) => {
       return;
     }
 
+
+
     setPopupData({
       title: node.data.title,
       content: node.data.content + '\n\n' + 'loading...',
@@ -44,7 +47,7 @@ const Graph = ({ data }) => {
     })
     setIsLoading(true);
     try {
-      const response = await fetch('http://127.0.0.1:5000/api/expand_node', {
+      const response = await fetch('https://nodes-im5i.onrender.com/api/expand_node', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -98,7 +101,7 @@ const Graph = ({ data }) => {
     console.log("kucchi09")
     if (popupData) {
       try {
-        const response = await fetch('http://127.0.0.1:5000/api/node_question', {
+        const response = await fetch('https://nodes-im5i.onrender.com/api/node_question', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
