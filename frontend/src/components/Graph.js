@@ -47,7 +47,7 @@ const Graph = ({ data }) => {
     })
     setIsLoading(true);
     try {
-      const response = await fetch('https://nodes-im5i.onrender.com/api/expand_node', {
+      const response = await fetch('nodes-production.up.railway.app/api/expand_node', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -101,7 +101,7 @@ const Graph = ({ data }) => {
     console.log("kucchi09")
     if (popupData) {
       try {
-        const response = await fetch('https://nodes-im5i.onrender.com/api/node_question', {
+        const response = await fetch('nodes-production.up.railway.app/api/node_question', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
