@@ -30,7 +30,7 @@ function History({ onTopicClick, isGraphVisible }) {
           left: isGraphVisible ? '70px' : '4px' // Adjust position based on graph visibility
         }}
       >
-        {isOpen ? '×' : '☰'}
+        {isOpen ? '<<' : '☰'}
       </button>
       
       <div className={`w-64 h-full bg-black bg-opacity-30 backdrop-blur-sm border-r border-gray-800 overflow-y-auto transition-transform duration-300 ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}>

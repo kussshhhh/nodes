@@ -6,7 +6,7 @@
   import Loading from './Loading'
   import History from './History'
   import { initDB, getGraph, saveGraph } from './IndexDBUtils'
-
+  import SpaceBackground from './SpaceBackground'
   // import { is } from '@react-three/fiber/dist/declarations/src/core/utils'
 
   function createMoonTexture() {
@@ -264,20 +264,23 @@
     return (
       
       <div>
+
         <History onTopicClick={handleTopicSelect} />
         { !isLoading && !graphData && ( 
-            <div className="min-h-screen bg-gradient-to-br from-gray-900 to-black flex flex-col items-center justify-start p-4 relative overflow-hidden" style={{
-              backgroundImage: 'linear-gradient(to bottom right, #000000, #000000)',
-              boxShadow: 'inset 0 0 100px 20px rgba(255,255,255,0.1)'
-            }}>
+            <div className="min-h-screen flex flex-col items-center justify-start p-4 relative overflow-hidden"
+            >
               <div className="absolute inset-0">
-                <Canvas camera={{ position: [0, 0, 5] }}>
+                {/* <Canvas camera={{ position: [0, 0, 5] }}>
                   <ambientLight intensity={0.5} />
                   <pointLight position={[10, 10, 10]} />
                   <Stars />
                   <Comets />
                   <Environment preset="night" />
-                </Canvas>
+                </Canvas> */}
+
+              <SpaceBackground/>
+
+              
               </div>
               <div className="w-full max-w-md aspect-square mt-8 mb-4 relative z-10">
                 <Canvas camera={{ position: [0, 0, 3] }}>
@@ -314,21 +317,7 @@
             <div className="graph-wrapper" style={{ width: '100%', height: '600px' }}>
               <Graph data={graphData} />
             </div>
-            {/* <button
-              onClick={handleBack}
-              className="bg-pink-500 hover:bg-pink-600 text-white font-bold px-4 py-2 rounded-md text-lg"
-              style={{
-                position: 'absolute', // Make the button float on top of the graph
-                top: '10px',          // Adjust top position as needed
-                left: '10px',         // Adjust left position as needed
-                backgroundColor: '#ff1493',
-                boxShadow: '0 0 10px #ff1493, 0 0 20px #ff1493, 0 0 30px #ff1493',
-                transition: 'all 0.3s ease',
-                zIndex: 10            // Ensure the button is layered above the graph
-              }}
-            >
-              ←
-            </button> */}
+           
           </div>
         )}
 
