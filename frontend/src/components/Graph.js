@@ -25,6 +25,9 @@ const Graph = ({ data }) => {
 
   const expandNode = useCallback(async (node) => {
     // If the node is already open, just show the popup with existing content
+    if (node.data.content.length > 100) {
+        node.data.isOpen = true;
+    }
     if (node.data.isOpen) {
       setPopupData({
         title: node.data.title,
@@ -62,6 +65,7 @@ const Graph = ({ data }) => {
       
       // Update the node content in IndexedDB
       await updateNodeContent(data.topic, node.id, result.content, true);
+      console.log("hehe")
 
       setPopupData({
         title: node.data.title,
@@ -83,7 +87,15 @@ const Graph = ({ data }) => {
     }
   }, [data.topic, nodes, setNodes]);
 
-  const handleSendToBackend = useCallback(async () => {
+  const handleSendToBackend = useCallback(async (inputquery) => {
+     setPopupData({
+        title: popupData.title,
+        content: popupData.content + '\n\n' + '**user:** '+ inputquery + '\n\n' + '...',
+        nodeId: popupData.nodeId
+      });
+    console.log(inputquery)
+    console.log(popupData.content)
+    console.log("kucchi09")
     if (popupData) {
       try {
         const response = await fetch('http://127.0.0.1:5000/api/node_question', {
@@ -94,17 +106,20 @@ const Graph = ({ data }) => {
           body: JSON.stringify({
             topic: data.topic,
             node_id: popupData.nodeId,
-            question: "Tell me more about this topic"
+            question: inputquery,
+            context: popupData.content
           }),
         });
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const result = await response.json();
+        await updateNodeContent(data.topic, popupData.nodeId, popupData.content +'\n' + result.answer, true);
+
         console.log('Backend response:', result);
         setPopupData(prevData => ({
           ...prevData,
-          content: prevData.content + '\n\nAdditional information:\n' + result.answer
+          content: prevData.content + '\n\n' + result.answer
         }));
       } catch (error) {
         console.error('Error sending question to backend', error);

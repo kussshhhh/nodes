@@ -82,7 +82,7 @@ def expand_node():
         Provide a clear and concise explanation that anyone can understand and implement (if relevant). 
         Include key concepts, practical applications, and any important considerations.
         If applicable, provide a simple example or implementation steps.
-
+        leave proper spaces too between paras so its readable
         critical: respond solely in markdown format not anything else
         markdown format
         """
@@ -101,18 +101,15 @@ def node_question():
     topic = data.get('topic')
     node_id = data.get('node_id')
     question = data.get('question')
+    context = data.get('context')
 
-    if not all([topic, node_id, question]):
+    if not all([topic, node_id, question, context]):
         return jsonify({"error": "Missing required parameters"}), 400
 
 
     try:
         
-        chat_history = json.loads(chat_history)
-
-        for message in chat_history:
-            if message['type'] != 'null':
-                context += f"{message['type'].capitalize()}: {message['content']}\n"
+        
         context += f"\nUser: {question}\nAssistant:"
 
         # Generate response
