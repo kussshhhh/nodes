@@ -154,7 +154,19 @@
         }
       }
 
+      const handleBeforeUnload = (event) => {
+        // Check if it's a refresh (user pressed F5 or Ctrl+R)
+        if (event.persisted || (window.performance && window.performance.navigation.type === 1)) {
+          // It's a refresh, don't clear the state
+          return;
+        }
+
+        // It's a page close, clear the state
+        localStorage.removeItem('currentTopic');
+      };
+
       window.addEventListener('popstate', handlePopState) ;
+      window.addEventListener('beforeunload', handleBeforeUnload);
 
       //check url params on load
       const urlParams  = new URLSearchParams(window.location.search) ;
@@ -171,6 +183,7 @@
 
       return () => {
         window.removeEventListener('popstate', handlePopState) ;
+        window.removeEventListener('beforeunload', handleBeforeUnload);
       }
 
     }, []);
