@@ -11,7 +11,7 @@ import CustomNode from './CustomNode';
 import Popup from './Popup';
 import { generateNodes, generateEdges } from './graphUtils';
 import { updateNodeContent } from './IndexDBUtils';
-const backendapi = process.env.backendapi ;
+const backendapi = "https://nodes-production.up.railway.app" ;
 const nodeTypes = {
   custom: CustomNode,
 };
