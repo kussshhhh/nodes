@@ -34,6 +34,11 @@ const Graph = ({ data }) => {
       return;
     }
 
+    setPopupData({
+      title: node.data.title,
+      content: node.data.content + '\n\n' + 'Loading...',
+      nodeId: node.id 
+    })
     setIsLoading(true);
     try {
       const response = await fetch('http://127.0.0.1:5000/api/expand_node', {
@@ -56,7 +61,7 @@ const Graph = ({ data }) => {
       const result = await response.json();
       
       // Update the node content in IndexedDB
-      await updateNodeContent(data.topic, node.id, result.content);
+      await updateNodeContent(data.topic, node.id, result.content, true);
 
       setPopupData({
         title: node.data.title,
