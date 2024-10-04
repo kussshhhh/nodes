@@ -8,7 +8,7 @@
   import { initDB, getGraph, saveGraph } from './IndexDBUtils'
   import SpaceBackground from './SpaceBackground'
   // import { is } from '@react-three/fiber/dist/declarations/src/core/utils'
-  const backendapi = "https://nodes-production.up.railway.app" ;
+  const backendapi = process.env.REACT_APP_API_URL ;
 
   function createMoonTexture() {
     const size = 1024

@@ -11,7 +11,7 @@ import CustomNode from './CustomNode';
 import Popup from './Popup';
 import { generateNodes, generateEdges } from './graphUtils';
 import { updateNodeContent } from './IndexDBUtils';
-const backendapi = "https://nodes-production.up.railway.app" ;
+const backendapi = process.env.REACT_APP_API_URL  ;
 const nodeTypes = {
   custom: CustomNode,
 };
@@ -26,7 +26,7 @@ const Graph = ({ data }) => {
 
   const expandNode = useCallback(async (node) => {
     // If the node is already open, just show the popup with existing content
-    if (node.data.content.length > 100) {
+    if (node.data.content.length > 200) {
         node.data.isOpen = true;
     }
     if (node.data.isOpen) {
