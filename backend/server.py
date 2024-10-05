@@ -1,5 +1,5 @@
 from dotenv import load_dotenv
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, Response, stream_with_context
 from flask_cors import CORS
 import google.generativeai as genai
 import json
@@ -16,7 +16,7 @@ load_dotenv()
 genai.configure(api_key=os.getenv('key'))
    
 client = Groq(
-    api_key=os.getenv('groq') 
+        api_key=os.getenv('groq') 
 )
 
 def load_prompt():
@@ -40,7 +40,7 @@ def learn_topic():
     try:
 
         prompt_template = load_prompt()
-        full_prompt = topic + prompt_template + "give only the json with no new lines or whitespaces in between just pure compact json"
+        full_prompt = topic + prompt_template + "give only the json with no new lines or whitespaces in between just pure compact json amd dont forget edges pls pls pls edges must be there"
         # model = genai.GenerativeModel('gemini-pro')
         # response = model.generate_content(full_prompt)
         # parsed_response = parse_llm_response(response.text)
@@ -100,31 +100,34 @@ def expand_node():
         return jsonify({"error": "Missing required parameters"}), 400
     
 
+    def generate():
+        try:
+            # Generate content for the node
+            model = genai.GenerativeModel('gemini-pro')
+            prompt = f"""
+            Efficiently explain the following topic in the context of {topic} in markdown:
 
-    try:
-        # Generate content for the node
-        model = genai.GenerativeModel('gemini-pro')
-        prompt = f"""
-        Efficiently explain the following topic in the context of {topic} in markdown:
-    
-        Title: {title}
-        Brief description: {content}
-        markdown format
-        Provide a clear and concise explanation that anyone can understand and implement (if relevant). 
-        Include key concepts, practical applications, and any important considerations.
-        If applicable, provide a simple example or implementation steps.
-        leave proper spaces too between paras so its readable
-        critical: respond solely in markdown format not anything else
-        markdown format
-        """
-        response = model.generate_content(prompt)
-        generated_content = response.text
-        generated_content = content + "\n" + generated_content
-        print(generated_content)
+            Title: {title}
+            Brief description: {content}
+            markdown format
+            Provide a clear and concise explanation that anyone can understand and implement (if relevant). 
+            Include key concepts, practical applications, and any important considerations.
+            If applicable, provide a simple example or implementation steps.
+            leave proper spaces too between paras so its readable
+            critical: respond solely in markdown format not anything else
+            markdown format
+            """
+            response = model.generate_content(prompt, stream=True)
+            yield json.dumps({"content": content + "\n"}) + "\n" 
 
-        return jsonify({"content": generated_content})
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
+            for chunk in response:
+                if chunk.text:
+                    yield json.dumps({"content": chunk.text}) + "\n"    
+            
+        except Exception as e:
+            return jsonify({"error": str(e)}), 500
+        
+    return Response(stream_with_context(generate()), content_type='application/json')
 
 @app.route('/api/node_question', methods=['POST'])
 def node_question():
