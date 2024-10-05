@@ -3,3 +3,4 @@ Flask-CORS
 python-dotenv
 google-generativeai
 gunicorn
+groq

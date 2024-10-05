@@ -6,6 +6,8 @@ import json
 import sqlite3
 from sqlite3 import Error
 import os
+from groq import Groq
+
 app = Flask(__name__)
 CORS(app)
 load_dotenv() 
@@ -13,7 +15,9 @@ load_dotenv()
 # Configure the Gemini API
 genai.configure(api_key=os.getenv('key'))
    
-
+client = Groq(
+    api_key=os.getenv('groq') 
+)
 
 def load_prompt():
     with open('prompt.txt', 'r') as file:
@@ -36,12 +40,39 @@ def learn_topic():
     try:
 
         prompt_template = load_prompt()
-        full_prompt = topic + prompt_template
-        model = genai.GenerativeModel('gemini-pro')
-        response = model.generate_content(full_prompt)
-        parsed_response = parse_llm_response(response.text)
+        full_prompt = topic + prompt_template + "give only the json with no new lines or whitespaces in between just pure compact json"
+        # model = genai.GenerativeModel('gemini-pro')
+        # response = model.generate_content(full_prompt)
+        # parsed_response = parse_llm_response(response.text)
 
+        attempt = 0 
+        maxx = 4
+        while attempt < maxx:
+            response = client.chat.completions.create(
+            messages=[
+                {
+                    "role": "user",
+                    "content": full_prompt
+                }
+            ],
+                model="mixtral-8x7b-32768",
+                temperature=0.5
+
+            
+            )
+            parsed_response = response.choices[0].message.content 
+            # Convert the response to a JSON object if it's a string
+            print(parsed_response)
+            try:
+                parsed_response = json.loads(parsed_response)
+                break
+            except json.JSONDecodeError:
+                print("not a real json")
+
+        # print(parsed_response)
         # Ensure the parsed response has the correct structure
+        if attempt == maxx:
+            return jsonify({"error": "json not proper"}),500
         if 'topic' not in parsed_response or 'levels' not in parsed_response:
             return jsonify({"error": "Invalid response structure from LLM"}), 500
 
