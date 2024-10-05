@@ -24,6 +24,12 @@ export default function Popup({ title, content, onClose, onSendToBackend, isLoad
     setInputValue('');
   };
 
+  const handleKeyPress = (event) => {
+    if(event.key === 'Enter' && inputValue.trim()){
+      handleSendToBackend() ;
+    }
+  }
+
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
       <div
@@ -75,6 +81,7 @@ export default function Popup({ title, content, onClose, onSendToBackend, isLoad
             type="text"
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
+            onKeyDown={handleKeyPress}
             placeholder="Type your message..."
             className="flex-grow mr-2 p-2 rounded border border-gray-600 bg-gray-700 bg-opacity-50 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 transition-all duration-200"
           />
