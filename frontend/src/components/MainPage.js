@@ -274,16 +274,21 @@
         }
       };
 
-      // const handleBack = async () => {
-      //   setGraphData(null);
-      //   localStorage.removeItem('currentTopic');
-      // };
+      const handleHomeClick = () => {
+        setGraphData(null) ;
+        setLearningTopic('') ;
+        localStorage.removeItem('currentTopic') ;
+        window.history.pushState(null, '', '/') ;
+      } 
 
     return (
       
       <div>
 
-        <History onTopicClick={handleTopicSelect} />
+        <History 
+          onTopicClick={handleTopicSelect} 
+          onHomeClick={handleHomeClick}  
+        />
         { !isLoading && !graphData && ( 
             <div className="min-h-screen flex flex-col items-center justify-start p-4 relative overflow-hidden"
             >
