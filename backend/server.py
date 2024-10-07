@@ -174,7 +174,8 @@ def expand_node():
     if not all([topic, node_id, title, content]):
         return jsonify({"error": "Missing required parameters"}), 400
         
-    def get_node_context()
+    def get_node_context():
+        pass
     
 
     def generate():
@@ -182,8 +183,8 @@ def expand_node():
             # Generate content for the node
             
             model = genai.GenerativeModel('gemini-pro')
-            client = Groq(api_key=os.getenv('GROQ_API_KEY'))
-            graph_context =
+            client2 = Groq(api_key=os.getenv('GROQ_API_KEY'))
+            #graph_context =
 
 
             prompt = f"""
