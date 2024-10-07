@@ -173,6 +173,8 @@ def expand_node():
 
     if not all([topic, node_id, title, content]):
         return jsonify({"error": "Missing required parameters"}), 400
+        
+    def get_node_context()
     
 
     def generate():
@@ -180,11 +182,12 @@ def expand_node():
             # Generate content for the node
             
             model = genai.GenerativeModel('gemini-pro')
-            client = Groq(
-        api_key=os.getenv('GROQ_API_KEY'))
+            client = Groq(api_key=os.getenv('GROQ_API_KEY'))
+            graph_context =
+
 
             prompt = f"""
-            Heres Some context within the graph {context}
+            Heres Some context for the node within the graph {graph_context}
             Efficiently explain the following topic in the context of {topic} in markdown:
 
             Title: {title}

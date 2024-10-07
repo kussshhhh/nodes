@@ -10,7 +10,7 @@
   // import { is } from '@react-three/fiber/dist/declarations/src/core/utils'
   
 
-  const backendapi = "http://localhost:5000" ;
+  const backendapi = "process.env.REACT_APP_API_URL" ;
   console.log(backendapi) 
 
   function createMoonTexture() {
