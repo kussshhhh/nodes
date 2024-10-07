@@ -184,11 +184,12 @@ def expand_node():
             
             model = genai.GenerativeModel('gemini-pro')
             client2 = Groq(api_key=os.getenv('GROQ_API_KEY'))
-            #graph_context =
+            graph_context = "empty"
 
+           # add: in prompt below line after impl graph (adjacent nodes info) context
+           # Heres Some context for the node within the graph {graph_context}
 
             prompt = f"""
-            Heres Some context for the node within the graph {graph_context}
             Efficiently explain the following topic in the context of {topic} in markdown:
 
             Title: {title}
