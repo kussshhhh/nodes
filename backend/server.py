@@ -232,7 +232,7 @@ def node_question():
         context += f"\nUser: {question}\nAssistant:"
 
         # Generate response
-        chat_model = Groq.GenerativeModel('gemini-pro')
+        model = genai.GenerativeModel('gemini-pro')
         response = model.generate_content(context)
         answer = response.text
 
