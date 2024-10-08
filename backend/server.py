@@ -183,7 +183,7 @@ def expand_node():
             # Generate content for the node
             
             model = genai.GenerativeModel('gemini-pro')
-            client2 = Groq(api_key=os.getenv('GROQ_API_KEY'))
+            client2 = Groq(api_key=os.getenv('groq'))
             graph_context = "empty"
 
            # add: in prompt below line after impl graph (adjacent nodes info) context
