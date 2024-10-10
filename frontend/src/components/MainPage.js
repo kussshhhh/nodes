@@ -11,7 +11,7 @@
   
 
   const backendapi = process.env.REACT_APP_API_URL;
-  console.log(backendapi) 
+  // console.log(backendapi) 
 
   function createMoonTexture() {
     const size = 1024
