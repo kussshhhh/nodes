@@ -304,23 +304,33 @@
               </div>
               <h1 className="text-3xl font-bold text-white mb-4 text-center relative z-10">What would you like to learn?</h1>
               <form onSubmit={handleSubmit} className="w-full max-w-lg relative z-30">
-                <div className="flex gap-2">
-                 <input
+                <div className="relative">
+                  <button 
+                    type="submit" 
+                    className="absolute inset-0 bg-pink-500 hover:bg-pink-600 text-white font-bold rounded-md text-lg"
+                    style={{
+                      backgroundColor: '#ff1493',
+                      boxShadow: '0 0 10px #ff1493, 0 0 20px #ff1493, 0 0 30px #ff1493',
+                      transition: 'all 0.3s ease',
+                      zIndex: 10
+                    }}
+                  >
+                    Learn
+                  </button>
+                  <input
                     type="text"
                     value={learningTopic}
                     onChange={(e) => setLearningTopic(e.target.value)}
                     placeholder="Enter a topic..."
-                    className="flex-grow bg-white bg-opacity-10 text-white placeholder-gray-400 border border-gray-600 rounded-md p-3 text-lg"
+                    className="w-full bg-white bg-opacity-10 text-white placeholder-gray-400 border border-gray-600 rounded-md p-3 text-lg"
+                    style={{
+                      position: 'relative',
+                      zIndex: 20,
+                      backgroundColor: 'rgba(255, 255, 255, 0.1)'
+                    }}
                   />
-                  <button type="submit" className="bg-pink-500 hover:bg-pink-600 text-white font-bold px-6 py-3 rounded-md text-lg" style={{
-                    backgroundColor: '#ff1493',
-                    boxShadow: '0 0 10px #ff1493, 0 0 20px #ff1493, 0 0 30px #ff1493',
-                    transition: 'all 0.3s ease'
-                  }}>
-                    Learn
-                  </button>
                 </div>
-              </form>
+              </form> 
             </div> )}
 
         {isLoading && <Loading/>}
