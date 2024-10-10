@@ -151,7 +151,7 @@ const Graph = ({ data }) => {
         const finalContent = `${updatedContent}\n\n${result.answer}`;
         await updateNodeContent(data.topic, popupData.nodeId,  finalContent , true);
 
-        console.log('Backend response:', result);
+        // console.log('Backend response:', result);
 
         setPopupData(prevData => ({
           ...prevData,
@@ -159,7 +159,7 @@ const Graph = ({ data }) => {
         }));
 
       // Update the nodes state to reflect the change
-      console.log(popupData.content)
+      // console.log(popupData.content)
       setNodes(nodes.map(n => 
         n.id === popupData.nodeId 
           ? { ...n, data: { ...n.data, content:  finalContent, isOpen: true }}
@@ -200,7 +200,7 @@ const Graph = ({ data }) => {
           style: { stroke: '#436e86', strokeWidth: 2 },
         }}
       >
-        <Controls />
+        // <Controls />
         <Background color="#ff12f0" gap={16} />
         {popupData && (
           <Popup
