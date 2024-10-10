@@ -315,12 +315,20 @@
               <h1 className="text-3xl font-bold text-white mb-4 text-center relative z-10">What would you like to learn?</h1>
               <form onSubmit={handleSubmit} className="w-full max-w-lg relative z-10">
                 <div className="flex gap-2">
-                  <input
-                    type="text"
+                  <textarea
                     value={learningTopic}
-                    onChange={(e) => setLearningTopic(e.target.value)}
+                    onChange={(e) => {
+                    setLearningTopic(e.target.value);
+                    // Automatically adjust height
+                    e.target.style.height = 'auto';
+                    e.target.style.height = e.target.scrollHeight + 'px';
+                    }}
                     placeholder="Enter a topic..."
-                    className="flex-grow bg-white bg-opacity-10 text-white placeholder-gray-400 border border-gray-600 rounded-md p-3 text-lg"
+                    className="flex-grow bg-white bg-opacity-10 text-white placeholder-gray-400 border border-gray-600 rounded-md p-3 text-lg resize-none overflow-hidden"
+                    style={{
+                      minHeight: '48px', // Matches the original input height
+                      maxHeight: '200px' // Prevents excessive growth
+                    }}
                   />
                   <button type="submit" className="bg-pink-500 hover:bg-pink-600 text-white font-bold px-6 py-3 rounded-md text-lg" style={{
                     backgroundColor: '#ff1493',
