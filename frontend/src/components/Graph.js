@@ -199,7 +199,6 @@ const Graph = ({ data }) => {
           style: { stroke: '#436e86', strokeWidth: 2 },
         }}
       >
-        // <Controls />
         <Background color="#ff12f0" gap={16} />
         {popupData && (
           <Popup
