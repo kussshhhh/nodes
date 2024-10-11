@@ -282,69 +282,58 @@
       } 
 
     return (
-      
       <div>
 
-        <History 
-          onTopicClick={handleTopicSelect} 
-          onHomeClick={handleHomeClick}  
-        />
-        { !isLoading && !graphData && ( 
-            <div className="min-h-screen flex flex-col items-center justify-start p-4 relative overflow-hidden"
-            >
-              <div className="absolute inset-0 pointer-events-none">
-                <SpaceBackground/>
-              </div>
-              <div className="w-full max-w-md aspect-square mt-8 mb-4 relative z-10 pointer-events-none">
-                <Canvas camera={{ position: [0, 0, 3] }}>
-                  <ambientLight intensity={0.5} />
-                  <pointLight position={[10, 10, 10]} intensity={1} />
-                  <GlowingMoon />
-                </Canvas>
-              </div>
-              <h1 className="text-3xl font-bold text-white mb-4 text-center relative z-10">What would you like to learn?</h1>
-              <form onSubmit={handleSubmit} className="w-full max-w-lg relative z-30">
-                <div className="relative">
-                  <button 
-                    type="submit" 
-                    className="absolute inset-0 bg-pink-500 hover:bg-pink-600 text-white font-bold rounded-md text-lg"
-                    style={{
-                      backgroundColor: '#ff1493',
-                      boxShadow: '0 0 10px #ff1493, 0 0 20px #ff1493, 0 0 30px #ff1493',
-                      transition: 'all 0.3s ease',
-                      zIndex: 10
-                    }}
-                  >
-                    Learn
-                  </button>
-                  <input
-                    type="text"
-                    value={learningTopic}
-                    onChange={(e) => setLearningTopic(e.target.value)}
-                    placeholder="Enter a topic..."
-                    className="w-full bg-white bg-opacity-10 text-white placeholder-gray-400 border border-gray-600 rounded-md p-3 text-lg"
-                    style={{
-                      position: 'relative',
-                      zIndex: 20,
-                      backgroundColor: 'rgba(255, 255, 255, 0.1)'
-                    }}
-                  />
-                </div>
-              </form> 
-            </div> )}
-
-        {isLoading && <Loading/>}
-
-        {!isLoading && graphData && (
-          <div className="app-container">
-            <div className="graph-wrapper" style={{ width: '100%', height: '600px' }}>
-              <Graph data={graphData} />
+      <History 
+        onTopicClick={handleTopicSelect} 
+        onHomeClick={handleHomeClick}  
+      />
+      { !isLoading && !graphData && ( 
+          <div className="min-h-screen flex flex-col items-center justify-start p-4 relative overflow-hidden"
+          >
+            <div className="absolute inset-0 pointer-events-none">
+              <SpaceBackground/>
             </div>
-           
-          </div>
-        )}
+            <div className="w-full max-w-md aspect-square mt-8 mb-4 relative z-10 pointer-events-none">
+              <Canvas camera={{ position: [0, 0, 3] }}>
+                <ambientLight intensity={0.5} />
+                <pointLight position={[10, 10, 10]} intensity={1} />
+                <GlowingMoon />
+              </Canvas>
+            </div>
+            <h1 className="text-3xl font-bold text-white mb-4 text-center relative z-10">What would you like to learn?</h1>
+            <form onSubmit={handleSubmit} className="w-full max-w-lg relative z-30">
+              <div className="flex gap-2">
+               <input
+                  type="text"
+                  value={learningTopic}
+                  onChange={(e) => setLearningTopic(e.target.value)}
+                  placeholder="Enter a topic..."
+                  className="flex-grow bg-white bg-opacity-10 text-white placeholder-gray-400 border border-gray-600 rounded-md p-3 text-lg"
+                />
+                <button type="submit" className="bg-pink-500 hover:bg-pink-600 text-white font-bold px-6 py-3 rounded-md text-lg" style={{
+                  backgroundColor: '#ff1493',
+                  boxShadow: '0 0 10px #ff1493, 0 0 20px #ff1493, 0 0 30px #ff1493',
+                  transition: 'all 0.3s ease'
+                }}>
+                  Learn
+                </button>
+              </div>
+            </form>
+          </div> )}
 
-        
-      </div>
+      {isLoading && <Loading/>}
+
+      {!isLoading && graphData && (
+        <div className="app-container">
+          <div className="graph-wrapper" style={{ width: '100%', height: '600px' }}>
+            <Graph data={graphData} />
+          </div>
+         
+        </div>
+      )}
+
+      
+  </div>
     )
   } 

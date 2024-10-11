@@ -22,12 +22,23 @@ export default function History({ onTopicClick, isGraphVisible, onHomeClick }) {
   }, [])
 
   return (
-    <div className="fixed top-0 left-0 z-50 h-full">
-      <div className="absolute top-4 z-50 flex items-center" style={{
-        left: isGraphVisible ? '70px' : '4px',
-        transition: 'left 0.3s ease'
-      }}>
-        <button 
+     <div 
+      className="fixed top-0 left-0 z-50" 
+      style={{
+        height: '100%',
+        width: '64px', // Width of the button area
+        pointerEvents: 'none' // Make the whole container pass through clicks by default
+      }}
+    >
+      <div 
+        className="absolute top-4 z-50 flex items-center" 
+        style={{
+          left: isGraphVisible ? '70px' : '4px',
+          transition: 'left 0.3s ease',
+          pointerEvents: 'auto' // Restore click events for buttons
+        }}
+      >
+        <button
           onClick={() => setIsOpen(!isOpen)}
           className="bg-pink-500 hover:bg-pink-600 text-white font-bold px-4 py-2 rounded-md mr-2"
           style={{
@@ -52,8 +63,12 @@ export default function History({ onTopicClick, isGraphVisible, onHomeClick }) {
           <Home size={24} />
         </button>
       </div>
-      
-      <div className={`w-64 h-full bg-black bg-opacity-30 backdrop-blur-sm border-r border-gray-800 overflow-y-auto transition-transform duration-300 ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+      <div 
+        className={`w-64 h-full bg-black bg-opacity-30 backdrop-blur-sm border-r border-gray-800 overflow-y-auto transition-transform duration-300 ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}
+        style={{
+          pointerEvents: isOpen ? 'auto' : 'none' // Only block interactions when open
+        }}
+      >
         <div className="p-4 mt-20">
           <h2 className="text-xl font-bold text-white mb-4">History</h2>
           <div className="space-y-2">
