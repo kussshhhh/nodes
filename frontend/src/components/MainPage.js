@@ -7,6 +7,7 @@
   import History from './History'
   import { initDB, getGraph, saveGraph } from './IndexDBUtils'
   import SpaceBackground from './SpaceBackground'
+  import { Analytics } from "@vercel/analytics/react"
   // import { is } from '@react-three/fiber/dist/declarations/src/core/utils'
   
 
@@ -283,7 +284,7 @@
 
     return (
       <div>
-
+      <Analytics/>
       <History 
         onTopicClick={handleTopicSelect} 
         onHomeClick={handleHomeClick}  
