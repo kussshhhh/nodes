@@ -1,5 +1,5 @@
 import json
-
+import redis 
 class RoadmapParser:
     def __init__(self, json_data):
         self.data = json_data
