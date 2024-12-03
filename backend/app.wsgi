@@ -1,7 +1,9 @@
 import sys
 import os
-
-# Add your project directory to the sys.path
 sys.path.insert(0, os.path.dirname(__file__))
-
-from server import app as application  # Import the Flask app object from server.py
+print(os.path.dirname(__file__))  # Debug print of directory
+try:
+    from server import app as application
+    print("Import successful")
+except Exception as e:
+    print(f"Import failed: {e}")
