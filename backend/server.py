@@ -7,7 +7,7 @@ import sqlite3
 from sqlite3 import Error
 import os
 from groq import Groq
-import redis 
+# import redis 
 
 
 app = Flask(__name__)
@@ -21,10 +21,10 @@ client = Groq(
         api_key=os.getenv('groq') 
 )
 
-redis_client = redis.from_url(
-    os.environ.get('REDIS_URL'),
-    ssl=True
-)
+# redis_client = redis.from_url(
+#     os.environ.get('REDIS_URL'),
+#     ssl=True
+# )
 
 def load_prompt():
     with open('prompt.txt', 'r') as file:
@@ -120,9 +120,9 @@ def learn_topic():
             "Remember do add edges to the generated json structure"
         )
 
-        cached_data = redis_client.get(full_prompt)
-        if cached_data:
-            return jsonify(json.loads(cached_data) )
+        # cached_data = redis_client.get(full_prompt)
+        # if cached_data:
+        #     return jsonify(json.loads(cached_data) )
 
         attempt = 0 
         max_attempts = 4
@@ -162,7 +162,7 @@ def learn_topic():
 
         # Return the valid response
         print(parsed_response)
-        redis_client.set(full_prompt, json.dumps(parsed_response) )
+        # redis_client.set(full_prompt, json.dumps(parsed_response) )
         return jsonify(parsed_response)
 
     except Exception as e:
