@@ -1,6 +1,7 @@
 
 
-first find out the {input_topic} from the previous statement 
+first find out the {input_topic} from the previous statement. 
+if there are more than one topic that resemble a unit or syllabus then include all the topics, dont omit any topics include each topic/s 
 
 Generate a JSON structure for an efficient learning path on the topic of "{input_topic}". The JSON should represent a graph structure for a learning journey. Follow this exact structure, replacing the example content with appropriate content for {input_topic}:
 
