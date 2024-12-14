@@ -2,6 +2,7 @@
 
 first find out the {input_topic} from the previous statement. 
 if there are more than one topic that resemble a unit or syllabus then include all the topics, dont omit any topics include each topic/s 
+if more than one topic then omit assignments and no matter how many nodes it takes include every topic (very very important)
 
 Generate a JSON structure for an efficient learning path on the topic of "{input_topic}". The JSON should represent a graph structure for a learning journey. Follow this exact structure, replacing the example content with appropriate content for {input_topic}:
 
@@ -139,5 +140,5 @@ Guidelines:
 5. You may add or remove nodes and levels as necessary, but maintain at least 4 levels (including level 0) 
 6. Ensure all node IDs and edge IDs are unique and properly connected.
 7. The JSON must be valid and properly formatted.
-8. include assignments too if relevant
+8. include assignments too if relevant(for multiple topics omit them)
 Provide only the JSON as your response, with no additional explanation.

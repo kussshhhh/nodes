@@ -7,6 +7,7 @@ import sqlite3
 from sqlite3 import Error
 import os
 from groq import Groq
+import random
 # import redis 
 
 
@@ -19,6 +20,10 @@ genai.configure(api_key=os.getenv('key'))
    
 client = Groq(
         api_key=os.getenv('groq') 
+)
+
+client1 = Groq(
+        api_key=os.getenv('groq2')
 )
 
 # redis_client = redis.from_url(
@@ -124,11 +129,13 @@ def learn_topic():
         # if cached_data:
         #     return jsonify(json.loads(cached_data) )
 
+        selected_client = random.choice([client, client1])
+
         attempt = 0 
         max_attempts = 4
         while attempt < max_attempts:
             print(f"Attempt {attempt}")
-            response = client.chat.completions.create(
+            response = selected_client.chat.completions.create(
                 messages=[
                     {
                         "role": "user",
