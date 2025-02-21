@@ -201,7 +201,7 @@ def expand_node():
         try:
             # Generate content for the node
             
-            model = genai.GenerativeModel('gemini-2.0-pro-exp-02-05')
+            model = genai.GenerativeModel('gemini-2.0-flash')
 
            # add: in prompt below line after impl graph (adjacent nodes info) context
            # Heres Some context for the node within the graph {graph_context}
@@ -249,7 +249,7 @@ def node_question():
         context += f"\nUser: {question}\nAssistant:"
 
         # Generate response
-        model = genai.GenerativeModel('gemini-2.0-pro-exp-02-05')
+        model = genai.GenerativeModel('gemini-2.0-flash')
         response = model.generate_content(context)
         answer = response.text
 
