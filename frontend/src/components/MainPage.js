@@ -9,7 +9,6 @@
   import SpaceBackground from './SpaceBackground'
   import { Analytics } from "@vercel/analytics/react"
   import BuyMeCoffeeButton from './BuyMeCoffeeButton'
-  // import { is } from '@react-three/fiber/dist/declarations/src/core/utils'
   
 
   const backendapi = process.env.REACT_APP_API_URL;
