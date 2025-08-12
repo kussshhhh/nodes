@@ -10,7 +10,7 @@ import CustomNode from './CustomNode';
 import Popup from './Popup';
 import { generateNodes, generateEdges } from './graphUtils';
 import { updateNodeContent } from './IndexDBUtils';
-const backendapi = process.env.REACT_APP_API_URL  ;
+const backendapi = "https://nodes-production-7f67.up.railway.app";
 const nodeTypes = {
   custom: CustomNode,
 };

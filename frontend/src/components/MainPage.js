@@ -11,7 +11,7 @@
   import BuyMeCoffeeButton from './BuyMeCoffeeButton'
   
 
-  const backendapi = process.env.REACT_APP_API_URL;
+  const backendapi = "https://nodes-production-7f67.up.railway.app";
   // console.log(backendapi) 
 
   function createMoonTexture() {
